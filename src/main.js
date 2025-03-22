@@ -2,22 +2,30 @@ import { fetchSearchData, showError } from './js/pixabay-api';
 import { renderImageMarkup } from './js/render-functions';
 
 const search_form = document.getElementById('search-form');
-search_form.addEventListener('submit', search_image);
-
 const loader = document.getElementById('loader');
 const loadMoreBtn = document.querySelector('.load-more-button-js');
 
+let page = 1;
+let search_phrase = '';
+
+search_form.addEventListener('submit', search_image);
+loadMoreBtn.addEventListener('click', load_more_images);
+
 function search_image(event) {
   event.preventDefault();
+  page = 1;
   loader.style.display = 'block';
-  const search_phrase = event.currentTarget.elements.query.value;
+  search_phrase = event.currentTarget.elements.query.value.trim();
+
   if (!search_phrase) {
     showError('The request cant be empty, please fill in the input value!');
     loader.style.display = 'none';
     return;
   }
+
   event.currentTarget.reset();
-  fetchSearchData(search_phrase)
+
+  fetchSearchData(search_phrase, page)
     .then(data => {
       loader.style.display = 'none';
       renderImageMarkup(data);
@@ -27,8 +35,18 @@ function search_image(event) {
       }
     })
     .catch(err => {
-      console.log(err);
+      console.error(err);
       loader.style.display = 'none';
       loadMoreBtn.style.display = 'none';
     });
+}
+
+function load_more_images() {
+  page += 1;
+  fetchSearchData(search_phrase, page)
+    .then(data => {
+      console.log(data);
+      renderImageMarkup(data, true);
+    })
+    .catch(err => console.error(err));
 }

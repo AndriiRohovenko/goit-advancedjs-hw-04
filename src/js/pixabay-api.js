@@ -29,12 +29,11 @@ export async function fetchSearchData(
       const errorText =
         '❌ Sorry, there are no images matching your search query. Please try again!';
       showError(errorText);
-      // throw new Error(errorText);
     }
     return response_data;
   } catch {
     console.error('Error fetching data:', error);
-    // throw error;
+    throw error;
   }
 }
 

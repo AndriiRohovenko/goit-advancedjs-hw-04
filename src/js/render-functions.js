@@ -7,7 +7,7 @@ const gallery_config = {
   captionDelay: 250,
 };
 
-export function renderImageMarkup(images) {
+export function renderImageMarkup(images, append = false) {
   if (!images || images.length === 0) {
     gallery.innerHTML = '';
     return;
@@ -34,8 +34,12 @@ export function renderImageMarkup(images) {
   `
     )
     .join('');
+  if (append) {
+    gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+  } else {
+    gallery.innerHTML = galleryMarkup;
+  }
 
-  gallery.innerHTML = galleryMarkup;
   const lightbox = new SimpleLightbox('.gallery a', gallery_config);
   lightbox.refresh();
 }
