@@ -2,7 +2,7 @@ import { fetchSearchData, showError } from './js/pixabay-api';
 import { renderImageMarkup } from './js/render-functions';
 
 const search_form = document.getElementById('search-form');
-const loader = document.getElementById('loader');
+const loader = document.querySelector('.loader');
 const loadMoreBtn = document.querySelector('.load-more-button-js');
 const gallery = document.querySelector('.gallery');
 
