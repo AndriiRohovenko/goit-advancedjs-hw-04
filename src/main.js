@@ -54,12 +54,20 @@ async function load_more_images(event) {
     const data = await fetchSearchData(search_phrase, page);
     const totalPages = data.totalHits / perPage;
     loader.style.display = 'none';
+
     if (page >= totalPages) {
       event.target.style.display = 'none';
       showError("We're sorry, but you've reached the end of search results.");
+      loadMoreBtn.removeEventListener('click', load_more_images);
     } else {
       event.target.style.display = 'inline-block';
       renderImageMarkup(data.hits, true);
+
+      const galleryItem = document.querySelector('.gallery-item');
+      const itemHeight = galleryItem.getBoundingClientRect().height;
+
+      const scrollSize = itemHeight * 2;
+      window.scrollBy({ top: scrollSize, behavior: 'smooth' });
     }
   } catch (err) {
     console.error(err);
