@@ -55,8 +55,9 @@ async function load_more_images(event) {
     const totalPages = data.totalHits / perPage;
     loader.style.display = 'none';
 
-    if (page >= totalPages) {
+    if (page === totalPages) {
       event.target.style.display = 'none';
+      renderImageMarkup(data.hits, true);
       showError("We're sorry, but you've reached the end of search results.");
       loadMoreBtn.removeEventListener('click', load_more_images);
     } else {
