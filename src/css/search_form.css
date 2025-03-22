@@ -1,0 +1,74 @@
+.form {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+input[type='text'] {
+  padding: 10px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type='text']:hover {
+  border-color: black;
+}
+
+input[type='text']:active,
+input[type='text']:focus {
+  border-color: rgba(78, 117, 255, 1);
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #4a7aff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgba(108, 140, 255, 1);
+}
+.loader {
+  width: 64px;
+  height: 48px;
+  position: relative;
+  animation: split 1s ease-in infinite alternate;
+  display: none;
+  margin: 0 auto;
+}
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  left: 0;
+  top: 0;
+  transform: translateX(-10px);
+  background: #ff3d00;
+  opacity: 0.75;
+  backdrop-filter: blur(20px);
+}
+
+.loader::after {
+  left: auto;
+  right: 0;
+  background: #fff;
+  transform: translateX(10px);
+}
+
+@keyframes split {
+  0%,
+  25% {
+    width: 64px;
+  }
+  100% {
+    width: 148px;
+  }
+}

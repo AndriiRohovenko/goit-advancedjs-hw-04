@@ -1,0 +1,10 @@
+@import url('./gallery.css');
+@import url('./search_form.css');
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
