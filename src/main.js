@@ -7,6 +7,7 @@ const loadMoreBtn = document.querySelector('.load-more-button-js');
 const gallery = document.querySelector('.gallery');
 
 let page = 1;
+let perPage = 15;
 let search_phrase = '';
 
 search_form.addEventListener('submit', search_image);
@@ -30,9 +31,9 @@ async function search_image(event) {
     loadMoreBtn.style.display = 'none';
     const data = await fetchSearchData(search_phrase, page);
     loader.style.display = 'none';
-    renderImageMarkup(data);
+    renderImageMarkup(data.hits);
     loadMoreBtn.style.display = 'inline-block';
-    if (data.length === 0) {
+    if (data.hits.length === 0) {
       loadMoreBtn.style.display = 'none';
     }
   } catch (err) {
@@ -51,10 +52,15 @@ async function load_more_images(event) {
     loader.style.display = 'block';
 
     const data = await fetchSearchData(search_phrase, page);
-
+    const totalPages = data.totalHits / perPage;
     loader.style.display = 'none';
-    event.target.style.display = 'inline-block';
-    renderImageMarkup(data, true);
+    if (page >= totalPages) {
+      event.target.style.display = 'none';
+      showError("We're sorry, but you've reached the end of search results.");
+    } else {
+      event.target.style.display = 'inline-block';
+      renderImageMarkup(data.hits, true);
+    }
   } catch (err) {
     console.error(err);
   }

@@ -23,9 +23,9 @@ export async function fetchSearchData(
       per_page: fetch_per_page,
     },
   };
-  const response_data = (await axios.get('', request_options)).data.hits;
+  const response_data = (await axios.get('', request_options)).data;
   try {
-    if (!response_data || response_data.length === 0) {
+    if (!response_data.hits || response_data.hits.length === 0) {
       const errorText =
         '❌ Sorry, there are no images matching your search query. Please try again!';
       showError(errorText);
