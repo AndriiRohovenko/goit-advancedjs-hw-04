@@ -5,6 +5,7 @@ const search_form = document.getElementById('search-form');
 search_form.addEventListener('submit', search_image);
 
 const loader = document.getElementById('loader');
+const loadMoreBtn = document.querySelector('.load-more-button-js');
 
 function search_image(event) {
   event.preventDefault();
@@ -16,8 +17,18 @@ function search_image(event) {
     return;
   }
   event.currentTarget.reset();
-  fetchSearchData(search_phrase).then(data => {
-    loader.style.display = 'none';
-    renderImageMarkup(data);
-  });
+  fetchSearchData(search_phrase)
+    .then(data => {
+      loader.style.display = 'none';
+      renderImageMarkup(data);
+      loadMoreBtn.style.display = 'inline-block';
+      if (data.length === 0) {
+        loadMoreBtn.style.display = 'none';
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      loader.style.display = 'none';
+      loadMoreBtn.style.display = 'none';
+    });
 }
