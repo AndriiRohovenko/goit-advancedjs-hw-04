@@ -3,9 +3,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const gallery = document.querySelector('.gallery');
 const gallery_config = {
+  captions: true,
   captionsData: 'alt',
   captionDelay: 250,
 };
+
+let lightbox = null;
 
 export function renderImageMarkup(images, append = false) {
   if (!images || images.length === 0) {
@@ -40,6 +43,9 @@ export function renderImageMarkup(images, append = false) {
     gallery.innerHTML = galleryMarkup;
   }
 
-  const lightbox = new SimpleLightbox('.gallery a', gallery_config);
-  lightbox.refresh();
+  if (!lightbox) {
+    lightbox = new SimpleLightbox('.gallery a', gallery_config);
+  } else {
+    lightbox.refresh();
+  }
 }
