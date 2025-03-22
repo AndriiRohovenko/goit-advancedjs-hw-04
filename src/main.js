@@ -11,7 +11,7 @@ let search_phrase = '';
 search_form.addEventListener('submit', search_image);
 loadMoreBtn.addEventListener('click', load_more_images);
 
-function search_image(event) {
+async function search_image(event) {
   event.preventDefault();
   page = 1;
   loader.style.display = 'block';
@@ -25,28 +25,27 @@ function search_image(event) {
 
   event.currentTarget.reset();
 
-  fetchSearchData(search_phrase, page)
-    .then(data => {
-      loader.style.display = 'none';
-      renderImageMarkup(data);
-      loadMoreBtn.style.display = 'inline-block';
-      if (data.length === 0) {
-        loadMoreBtn.style.display = 'none';
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      loader.style.display = 'none';
+  const data = await fetchSearchData(search_phrase, page);
+  try {
+    loader.style.display = 'none';
+    renderImageMarkup(data);
+    loadMoreBtn.style.display = 'inline-block';
+    if (data.length === 0) {
       loadMoreBtn.style.display = 'none';
-    });
+    }
+  } catch (err) {
+    console.error(err);
+    loader.style.display = 'none';
+    loadMoreBtn.style.display = 'none';
+  }
 }
 
-function load_more_images() {
-  page += 1;
-  fetchSearchData(search_phrase, page)
-    .then(data => {
-      console.log(data);
-      renderImageMarkup(data, true);
-    })
-    .catch(err => console.error(err));
+async function load_more_images() {
+  try {
+    page += 1;
+    const data = await fetchSearchData(search_phrase, page);
+    renderImageMarkup(data, true);
+  } catch (err) {
+    console.error(err);
+  }
 }
