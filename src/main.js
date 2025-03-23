@@ -32,7 +32,12 @@ async function search_image(event) {
     const data = await fetchSearchData(search_phrase, page);
     loader.style.display = 'none';
     renderImageMarkup(data.hits);
-    loadMoreBtn.style.display = 'inline-block';
+    if (data.hits.length < 15) {
+      loadMoreBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.style.display = 'inline-block';
+    }
+
     if (data.hits.length === 0) {
       loadMoreBtn.style.display = 'none';
     }
